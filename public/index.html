@@ -1,0 +1,227 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="bookshelf">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Node+Angular Bookshelf App</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <style>
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            padding-top: 50px;
+        }
+
+        #book-list {
+            margin-left: 5px;
+            margin-bottom: 30px;
+        }
+
+        .jumbotron {
+            max-height: 100px;
+            padding-bottom: 100px;
+        }
+    </style>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="core.js"></script>
+
+</head>
+<body ng-controller="mainController">
+
+
+<div class="container">
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-book" aria-hidden="true"></span> MyBookshelf</h1>
+    </div>
+    <!-- Nawigacja -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                    MyBookshelf</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#bookList">My Books</a></li>
+                    <li><a href="#addBook">Add book</a></li>
+                    <li><a href="#addEbook">Add from IT ebooks</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Lista książek -->
+    <div id="bookList">
+        <!-- Zliczanie ksiazek -->
+        <div class="jumbotron text-center">
+            <h3>My Books <span class="label label-info">{{ books.length }}</span></h3>
+        </div>
+        <nav class="navbar navbar-default">
+            <form class="navbar-form navbar-center">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <input type="text" ng-model="myQuery" class="form-control" placeholder="Search">
+                </div>
+            </form>
+        </nav>
+
+        <!-- Lista ksiazek -->
+        <div id="book-list" class="col-sm-12 row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Cover</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Page No.</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="book in books  | filter:myQuery">
+                <tr>
+                    <td><img src="test.jpg" width="50px" height="63px"></td>
+                    <td>{{book.Title}}</td>
+                    <td>{{book.Description}}</td>
+                    <td>{{book.Author}}</td>
+                    <td>{{book.ISBN}}</td>
+                    <td>{{book.Pages}}</td>
+                    <td>
+                        <button type="button" ng-click="deleteBook(book._id)" class="btn btn-default btn-xs"><span
+                                class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Dodawanie ksiazki -->
+    <div id="addBook">
+        <div class="jumbotron text-center">
+            <h3>Add Book to your collection</h3>
+        </div>
+        <div id="book-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputTitle" placeholder="Title"
+                                   ng-model="formData.Title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputDescription" placeholder="Description"
+                                   ng-model="formData.Description">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAuthor" class="col-sm-2 control-label">Author</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputAuthor" placeholder="Author"
+                                   ng-model="formData.Author">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputISBN" class="col-sm-2 control-label">ISBN</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputISBN" placeholder="ISBN"
+                                   ng-model="formData.ISBN">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPages" class="col-sm-2 control-label">Page number</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputPages" placeholder="Page number"
+                                   ng-model="formData.Pages">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCover" class="col-sm-2 control-label">Upload cover</label>
+
+                        <div class="col-sm-10">
+                            <input type="file" id="inputCover">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary" ng-click="createBook()">Add book</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Dodawanie ksiazki -->
+    <div id="addEbook">
+        <div class="jumbotron text-center">
+            <h3>Add Book to your collection from IT Ebooks</h3>
+        </div>
+        <div id="ebook-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <div class="panel panel-default" style="min-height: 500px">
+                    <div class="panel-heading">
+                        <div class="col-sm-10">
+                            <input type="text" ng-model="eQuery"
+                                   class="form-control"
+                                   placeholder="Search IT Ebooks">
+                        </div>
+                        <button type="submit" ng-click="searchEbooks()" class="btn btn-default">Search</button>
+                    </div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Author</th>
+                            <th>ISBN</th>
+                            <th>Page No.</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="ebook in ebooks">
+                        <tr>
+                            <th scope="row"></th>
+                            <td>{{ebook.Title}}</td>
+                            <td>{{ebook.Description}}</td>
+                            <td>{{ebook.Author}}</td>
+                            <td>{{ebook.ISBN}}</td>
+                            <td>{{ebook.Pages}}</td>
+                            <td>
+                                <button type="button" ng-click="deleteBook(_id)" class="btn btn-default btn-xs"><span
+                                        class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
