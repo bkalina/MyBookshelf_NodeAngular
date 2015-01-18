@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 // Model
-var book = mongoose.model('book', {Title: String, Description: String, Author: String, ISBN: String, Pages: String});
+var book = mongoose.model('book', {Title: String, Description: String, Author: String, ISBN: String, Image: String});
 
 // API
 // Pobranie wszystkich ksiazek
@@ -34,7 +34,7 @@ app.post('/api/books', function (req, res) {
         Description: req.body.Description,
         Author: req.body.Author,
         ISBN: req.body.ISBN,
-        Pages: req.body.Pages
+        Image: req.body.Image
     }, function (err) {
         if (err)
             res.send(err);

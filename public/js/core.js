@@ -1,0 +1,1 @@
+angular.module('bookshelf', ['mainController', 'bookService', 'ebookService']);
